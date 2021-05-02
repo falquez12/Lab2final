@@ -51,15 +51,21 @@ extern int yydebug;
   {
     def = 258,
     ret = 259,
-    INTEGER = 260,
-    IDENTIFIER = 261
+    IF = 260,
+    WHILE = 261,
+    FOR = 262,
+    INTEGER = 263,
+    IDENTIFIER = 264
   };
 #endif
 /* Tokens.  */
 #define def 258
 #define ret 259
-#define INTEGER 260
-#define IDENTIFIER 261
+#define IF 260
+#define WHILE 261
+#define FOR 262
+#define INTEGER 263
+#define IDENTIFIER 264
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

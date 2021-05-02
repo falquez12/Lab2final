@@ -17,6 +17,9 @@
 
 %token def
 %token ret
+%token IF
+%token WHILE
+%token FOR
 %token INTEGER
 %token IDENTIFIER
 
@@ -26,13 +29,19 @@ linea :         asignacion                      {printf("esta bien \n");}
                 |funcion                        {printf("esta bien \n");}
                 ;   
 
-funcion:        def IDENTIFIER '(' parametros ')' ':';
+funcion:        def IDENTIFIER '(' parametros ')' ':' stmt ;
 
 parametros:     parametro
                 |
                 ;
 
 parametro:      IDENTIFIER;
+
+stmt:               IF '(' expr ')' ':' stmt
+                |   WHILE '(' expr ')' stmt
+                |   FOR '(' expr ')' stmt
+                |   ret  expr ';' 
+                |   expr ;
 
 asignacion :    IDENTIFIER '=' expr;    
 
