@@ -63,6 +63,12 @@
 %token STR;
 %token COMILLAS;
 %token COMILLA;
+%left  COMA
+%right COLON IGUAL 
+%left  SUMA RESTA
+%left  MULT
+%right AND 
+%left  PARABRE CORABRE
 
 
 
@@ -99,7 +105,7 @@ condicional:      IF expr_booleana COLON stmt cond_elif cond_else
 cond_elif: ELIF expr_booleana COLON stmt cond_elif
         | 
         ;
-cond_else: ELSE expr_booleana COLON stmt cond_else
+cond_else: ELSE COLON stmt cond_else
         | 
         ;
         ;
@@ -130,6 +136,7 @@ expr:      INTEGER
          | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
          | CORABRE expr CORCIERRA
          ;
+
 
 
 expr2:   NOT expr
