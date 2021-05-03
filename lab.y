@@ -3,7 +3,7 @@
     #include <stdlib.h>
     #include <ctype.h>
 
-        int simbolos[70];
+    
 
     void yyerror(char *cadena);
     extern int yylex();
@@ -70,12 +70,28 @@
 %right AND 
 %left  PARABRE CORABRE
 
+%token AUMENTAVAR; 
+%token RESTAVAR; 
+%token MULTIPLICAVAR; 
+%token DIVIDEVAR; 
+%token EXPVAR;
+%token FDIVVAR; 
+%token MODVAR;
+
+
 
 
 %%
-linea:          multiasig            {printf("esta bien \n");}
-                |funcion              {printf("esta bien \n");}
-                |stmt                {printf("esta bien \n");}
+linea:          multiasig            {printf("ESTA BIEN\n");}
+                |funcion             {printf("ESTA BIEN2\n");}
+                |stmt                {printf("ESTA BIEN3\n");}
+                |IMPORT IDENTIFIER   {printf("ESTA BIEN4\n");}
+                |specialstmt          {printf("ESTA BIEN5\n");}
+                |linea multiasig           {printf("ESTA BIEN6\n");}
+                |linea funcion             {printf("ESTA BIEN7\n");}
+                |linea stmt                {printf("ESTA BIEN8\n");}
+                |linea IMPORT IDENTIFIER   {printf("ESTA BIEN9\n");}
+                |linea specialstmt          {printf("ESTA BIEN10\n");}
                 ;   
 
 funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt;
@@ -89,21 +105,29 @@ parametros:      parametros COMA parametro
 
 parametro:      IDENTIFIER;
 
-stmt:               condicional
-                |   WHILE  expr  stmt
-                |   FOR  expr  stmt
+stmt:               condicional 
+                |   WHILE expr_booleana COLON stmt
+                |   FOR  expr_booleana COLON stmt
                 |   stmt ret  expr 
                 |   stmt ret 
                 |   multiasig
                 |   expr 
                 |   expr2
+                |   PRINT PARABRE expr PARCIERRA
+                |
                 ;
 
-condicional:      IF expr_booleana COLON stmt cond_elif cond_else
+specialstmt:    CONTINUE
+                |PASS
+                |BREAK
+                ;
+
+condicional:      IF expr_booleana COLON stmt cond_elif cond_else 
                 | IF expr2 COLON stmt cond_elif cond_else
                 ;
 cond_elif: ELIF expr_booleana COLON stmt cond_elif
-        | 
+        |ELIF expr2 COLON stmt cond_elif 
+        |
         ;
 cond_else: ELSE COLON stmt cond_else
         | 
@@ -113,21 +137,24 @@ cond_else: ELSE COLON stmt cond_else
 asignacion:     IDENTIFIER IGUAL expr 
            |    IDENTIFIER IGUAL RESTA INTEGER
            |    IDENTIFIER IGUAL RESTA IDENTIFIER
+           |    IDENTIFIER operadoresasignacion expr 
+           |    IDENTIFIER operadoresasignacion RESTA INTEGER
+           |    IDENTIFIER operadoresasignacion RESTA IDENTIFIER
            ;
 
 multiasig:  IDENTIFIER COMA multiasig COMA expr
             | asignacion
             ;  
 
-expr:      INTEGER
-         | STR
-         | IDENTIFIER
+expr:      INTEGER 
+         | STR 
+         | IDENTIFIER   
          | TRUES
          | FALSES
          | PARABRE expr PARCIERRA
          | PARABRE NOT expr PARCIERRA
-         | expr operadores expr
-         | expr operadoreslogicos expr
+         | expr operadores expr 
+         | expr operadoreslogicos expr 
          | expr COMA expr
          | IDENTIFIER PARABRE expr PARCIERRA
          | IDENTIFIER PARABRE NOT expr PARCIERRA
@@ -146,8 +173,20 @@ expr_aritmetica:   INTEGER
                  | IDENTIFIER
                  | expr_aritmetica operadores expr_aritmetica
             ;
-expr_booleana:  expr operadoreslogicos expr
-                | PARABRE expr operadoreslogicos expr PARCIERRA
+expr_booleana:    INTEGER
+                | STR
+                | IDENTIFIER  
+                | TRUES
+                | FALSES
+                | PARABRE expr_booleana PARCIERRA
+                | PARABRE NOT expr_booleana PARCIERRA
+                | expr_booleana operadores expr_booleana 
+                | expr_booleana operadoreslogicos expr_booleana 
+                | IDENTIFIER PARABRE expr_booleana PARCIERRA
+                | IDENTIFIER PARABRE NOT expr_booleana PARCIERRA
+                | IDENTIFIER PARABRE PARCIERRA
+                | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
+                | CORABRE expr_booleana CORCIERRA
                 ;
             
 
@@ -172,7 +211,14 @@ operadoreslogicos:   AND
                     |CIRCUN
                     ;
 
-
+operadoresasignacion:   AUMENTAVAR 
+                      |  RESTAVAR
+                      |  MULTIPLICAVAR 
+                      |  DIVIDEVAR 
+                      |  EXPVAR
+                      |  FDIVVAR 
+                      | MODVAR
+                      ;
 
 
 
@@ -180,10 +226,6 @@ operadoreslogicos:   AND
 %%
 
 int main (void){
-        int i;
-        for (i=0; i<52;i++){
-                simbolos[i]=0;
-        }
         return yyparse();
 }
 

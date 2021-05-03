@@ -9,6 +9,13 @@ void yyerror (char *cadena);
 %option yylineno
 
 %%
+"+="                             {return AUMENTAVAR; }
+"-="                             {return RESTAVAR; }
+"*="                             {return MULTIPLICAVAR; }
+"/="                             {return DIVIDEVAR; }
+"**="                            {return EXPVAR;}
+"//="                            {return FDIVVAR;} 
+"%="                             {return MODVAR;}
 """"                            {return COMILLAS;}
 "''"                            {return COMILLA;}
 "else"                           {return ELSE;}
@@ -56,8 +63,10 @@ void yyerror (char *cadena);
 "while"                         {return WHILE;}
 "for"                         {return FOR;}
 [_a-zA-Z][_a-zA-Z0-9]*           {return IDENTIFIER;}
-[’‘"'][A-Za-züÜáéíóúáéíóúÁÉÍÓÚ0-9 ]*[‘'"’] {return STR;}
 [0-9]+                        {return INTEGER;}
+\".*\"                          {return STR;}
+\'.*\'                           {return STR;}
 [ \t\f\v\n]                       ; 
+
 %%
 int yywrap (void){return 1;}

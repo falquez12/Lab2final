@@ -95,7 +95,14 @@ extern int yydebug;
     RANGE = 301,
     STR = 302,
     COMILLAS = 303,
-    COMILLA = 304
+    COMILLA = 304,
+    AUMENTAVAR = 305,
+    RESTAVAR = 306,
+    MULTIPLICAVAR = 307,
+    DIVIDEVAR = 308,
+    EXPVAR = 309,
+    FDIVVAR = 310,
+    MODVAR = 311
   };
 #endif
 /* Tokens.  */
@@ -146,6 +153,13 @@ extern int yydebug;
 #define STR 302
 #define COMILLAS 303
 #define COMILLA 304
+#define AUMENTAVAR 305
+#define RESTAVAR 306
+#define MULTIPLICAVAR 307
+#define DIVIDEVAR 308
+#define EXPVAR 309
+#define FDIVVAR 310
+#define MODVAR 311
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

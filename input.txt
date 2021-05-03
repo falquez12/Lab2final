@@ -1,6 +1,8 @@
-if (3>id): 
-    a = 3
-elif ((2*3)>id):
-    hola
-else:
-    b = 2
+def my_func():
+	x = 10
+    x=10
+	print("Value in//side function:",x)
+if(x==1)
+x = 20
+my_func()
+print("Value outside function:",x)
