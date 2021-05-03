@@ -85,16 +85,17 @@ extern int yydebug;
     SEMICOLON = 291,
     CIRCUN = 292,
     ELSE = 293,
-    BREAK = 294,
-    CONTINUE = 295,
-    IMPORT = 296,
-    PASS = 297,
-    PRINT = 298,
-    IN = 299,
-    RANGE = 300,
-    STR = 301,
-    COMILLAS = 302,
-    COMILLA = 303
+    ELIF = 294,
+    BREAK = 295,
+    CONTINUE = 296,
+    IMPORT = 297,
+    PASS = 298,
+    PRINT = 299,
+    IN = 300,
+    RANGE = 301,
+    STR = 302,
+    COMILLAS = 303,
+    COMILLA = 304
   };
 #endif
 /* Tokens.  */
@@ -134,16 +135,17 @@ extern int yydebug;
 #define SEMICOLON 291
 #define CIRCUN 292
 #define ELSE 293
-#define BREAK 294
-#define CONTINUE 295
-#define IMPORT 296
-#define PASS 297
-#define PRINT 298
-#define IN 299
-#define RANGE 300
-#define STR 301
-#define COMILLAS 302
-#define COMILLA 303
+#define ELIF 294
+#define BREAK 295
+#define CONTINUE 296
+#define IMPORT 297
+#define PASS 298
+#define PRINT 299
+#define IN 300
+#define RANGE 301
+#define STR 302
+#define COMILLAS 303
+#define COMILLA 304
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -152,9 +154,23 @@ typedef int YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 #endif
 
+/* Location type.  */
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
+typedef struct YYLTYPE YYLTYPE;
+struct YYLTYPE
+{
+  int first_line;
+  int first_column;
+  int last_line;
+  int last_column;
+};
+# define YYLTYPE_IS_DECLARED 1
+# define YYLTYPE_IS_TRIVIAL 1
+#endif
+
 
 extern YYSTYPE yylval;
-
+extern YYLTYPE yylloc;
 int yyparse (void);
 
 #endif /* !YY_YY_Y_TAB_H_INCLUDED  */

@@ -7,10 +7,12 @@
 
     void yyerror(char *cadena);
     extern int yylex();
-
+    extern int yylineno;
 
 
 %}
+
+%locations
 
 %start linea 
 
@@ -50,6 +52,7 @@
 %token SEMICOLON;
 %token CIRCUN;
 %token ELSE;
+%token ELIF;
 %token BREAK;
 %token CONTINUE;
 %token IMPORT;
@@ -63,13 +66,10 @@
 
 
 
-
 %%
 linea:          asignacion             {printf("esta bien \n");}
                 |funcion              {printf("esta bien \n");}
                 |stmt                {printf("esta bien \n");}
-                |lista                {printf("esta bien \n");}
-                |poslista                {printf("esta bien \n");}
                 ;   
 
 funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt;
@@ -83,15 +83,26 @@ parametros:      parametros COMA parametro
 
 parametro:      IDENTIFIER;
 
-stmt:               IF expr COLON stmt  
-                |   IF expr2 COLON stmt  
+stmt:               condicional
                 |   WHILE  expr  stmt
                 |   FOR  expr  stmt
-                |   ret  expr SEMICOLON
+                |   stmt ret  expr 
+                |   stmt ret 
+                |   asignacion
                 |   expr 
                 |   expr2
-                |
                 ;
+
+condicional:      IF expr_booleana COLON stmt cond_elif cond_else
+                | IF expr2 COLON stmt cond_elif cond_else
+                ;
+cond_elif: ELIF expr_booleana COLON stmt cond_elif
+        | 
+        ;
+cond_else: ELSE expr_booleana COLON stmt cond_else
+        | 
+        ;
+        ;
 
 asignacion:     IDENTIFIER IGUAL expr 
            |    IDENTIFIER COMA identifier2
@@ -116,20 +127,22 @@ expr:      INTEGER
          | IDENTIFIER PARABRE expr PARCIERRA
          | IDENTIFIER PARABRE NOT expr PARCIERRA
          | IDENTIFIER PARABRE PARCIERRA
+         | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
+         | CORABRE expr CORCIERRA
          ;
+
+
 expr2:   NOT expr
         
         ;
 
-lista:  CORABRE expr CORCIERRA
-        ;
-
-poslista:  IDENTIFIER CORABRE expr_aritmetica CORCIERRA
-        ;
 expr_aritmetica:   INTEGER
                  | IDENTIFIER
                  | expr_aritmetica operadores expr_aritmetica
             ;
+expr_booleana:  expr operadoreslogicos expr
+                | PARABRE expr operadoreslogicos expr PARCIERRA
+                ;
             
 
 
@@ -168,4 +181,6 @@ int main (void){
         return yyparse();
 }
 
-void yyerror (char *cadena) {fprintf (stderr, "%s\n", cadena);}
+void yyerror (char *cadena) {
+        fprintf(stderr,"Error | Line: %d\n%s\n",yylineno,cadena);
+        }

@@ -6,6 +6,7 @@ int yylex();
 void yyerror (char *cadena);
 %}
 
+%option yylineno
 
 %%
 """"                            {return COMILLAS;}
@@ -51,11 +52,12 @@ void yyerror (char *cadena);
 "def"                            {  return def; }
 "return"                         {  return ret;  }
 "if"                         {  return IF;  }
-"while"                         {  return WHILE;  }
-"for"                         {  return FOR;  }
-[_a-zA-Z][_a-zA-Z0-9]*           { return IDENTIFIER;   }
+"elif"                          {return ELIF;}
+"while"                         {return WHILE;}
+"for"                         {return FOR;}
+[_a-zA-Z][_a-zA-Z0-9]*           {return IDENTIFIER;}
 [’‘"'][A-Za-züÜáéíóúáéíóúÁÉÍÓÚ0-9 ]*[‘'"’] {return STR;}
-[0-9]+                        {  return INTEGER;  }
+[0-9]+                        {return INTEGER;}
 [ \t\f\v\n]                       ; 
 %%
 int yywrap (void){return 1;}
