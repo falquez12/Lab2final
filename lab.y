@@ -73,7 +73,7 @@
 
 
 %%
-linea:          asignacion             {printf("esta bien \n");}
+linea:          multiasig            {printf("esta bien \n");}
                 |funcion              {printf("esta bien \n");}
                 |stmt                {printf("esta bien \n");}
                 ;   
@@ -94,7 +94,7 @@ stmt:               condicional
                 |   FOR  expr  stmt
                 |   stmt ret  expr 
                 |   stmt ret 
-                |   asignacion
+                |   multiasig
                 |   expr 
                 |   expr2
                 ;
@@ -111,14 +111,13 @@ cond_else: ELSE COLON stmt cond_else
         ;
 
 asignacion:     IDENTIFIER IGUAL expr 
-           |    IDENTIFIER COMA identifier2
            |    IDENTIFIER IGUAL RESTA INTEGER
            |    IDENTIFIER IGUAL RESTA IDENTIFIER
-           ;    
+           ;
 
-identifier2:  IDENTIFIER COMA identifier2
-            | IDENTIFIER
-            ;
+multiasig:  IDENTIFIER COMA multiasig COMA expr
+            | asignacion
+            ;  
 
 expr:      INTEGER
          | STR
