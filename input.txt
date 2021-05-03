@@ -1,8 +1,12 @@
 def my_func():
-	x = 10
-    x=10
-	print("Value in//side function:",x)
-if(x==1)
+    x = 10
+    print("Value inside function:",x)
+
 x = 20
 my_func()
 print("Value outside function:",x)
+
+for xd in "hola":
+	for chao in range (1,2,3):
+		xd = ?wau
+		yu = $wawa

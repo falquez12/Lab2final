@@ -94,7 +94,11 @@ linea:          multiasig            {printf("ESTA BIEN\n");}
                 |linea specialstmt          {printf("ESTA BIEN10\n");}
                 ;   
 
-funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt;
+funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt 
+                | def IDENTIFIER PARABRE parametros PARCIERRA COLON ret 
+                | def IDENTIFIER PARABRE parametros PARCIERRA COLON ret expr 
+                | def IDENTIFIER PARABRE parametros PARCIERRA COLON 
+                ;
 
 
 
@@ -107,32 +111,49 @@ parametro:      IDENTIFIER;
 
 stmt:               condicional 
                 |   WHILE expr_booleana COLON stmt
-                |   FOR  expr_booleana COLON stmt
-                |   stmt ret  expr 
-                |   stmt ret 
+                |   ciclo_for stmt
                 |   multiasig
                 |   expr 
                 |   expr2
                 |   PRINT PARABRE expr PARCIERRA
-                |
+                |   range_expr
                 ;
 
 specialstmt:    CONTINUE
                 |PASS
                 |BREAK
+                |ret expr 
+                |ret 
                 ;
 
-condicional:      IF expr_booleana COLON stmt cond_elif cond_else 
+condicional:     IF expr_booleana COLON stmt cond_elif cond_else 
                 | IF expr2 COLON stmt cond_elif cond_else
+                | IF expr_booleana COLON
+                | IF expr2 COLON
                 ;
+
 cond_elif: ELIF expr_booleana COLON stmt cond_elif
         |ELIF expr2 COLON stmt cond_elif 
+        |ELIF expr_booleana COLON
+        |ELIF expr2 COLON
         |
         ;
-cond_else: ELSE COLON stmt cond_else
-        | 
+
+cond_else: ELSE COLON stmt 
+        | ELSE COLON 
         ;
-        ;
+
+ciclo_for: FOR IDENTIFIER IN IDENTIFIER COLON 
+          |FOR IDENTIFIER IN STR COLON 
+          |FOR IDENTIFIER IN PARABRE IDENTIFIER PARCIERRA COLON 
+          |FOR IDENTIFIER IN PARABRE STR PARCIERRA COLON 
+          |FOR IDENTIFIER IN range_expr COLON
+          |FOR IDENTIFIER IN CORABRE expr CORCIERRA COLON
+           ;
+
+range_expr: RANGE PARABRE expr PARCIERRA                
+           |RANGE PARABRE expr COMA expr PARCIERRA      
+           ;
 
 asignacion:     IDENTIFIER IGUAL expr 
            |    IDENTIFIER IGUAL RESTA INTEGER
@@ -162,7 +183,7 @@ expr:      INTEGER
          | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
          | CORABRE expr CORCIERRA
          ;
-
+         
 
 
 expr2:   NOT expr
