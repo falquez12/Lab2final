@@ -144,18 +144,19 @@ cond_else: ELSE COLON stmt
         ;
 
 ciclo_for: FOR IDENTIFIER IN IDENTIFIER COLON 
-          |FOR IDENTIFIER IN STR COLON 
+          |FOR IDENTIFIER IN expr_str COLON 
           |FOR IDENTIFIER IN PARABRE IDENTIFIER PARCIERRA COLON 
-          |FOR IDENTIFIER IN PARABRE STR PARCIERRA COLON 
+          |FOR IDENTIFIER IN PARABRE expr_str PARCIERRA COLON 
           |FOR IDENTIFIER IN range_expr COLON
           |FOR IDENTIFIER IN CORABRE expr CORCIERRA COLON
            ;
 
-range_expr: RANGE PARABRE expr PARCIERRA                
-           |RANGE PARABRE expr COMA expr PARCIERRA      
+range_expr: RANGE PARABRE expr PARCIERRA   
+           |RANGE expr             
+           |RANGE PARABRE expr COMA expr PARCIERRA  
            ;
 
-asignacion:     IDENTIFIER IGUAL expr 
+asignacion:     IDENTIFIER IGUAL expr  
            |    IDENTIFIER IGUAL RESTA INTEGER
            |    IDENTIFIER IGUAL RESTA IDENTIFIER
            |    IDENTIFIER operadoresasignacion expr 
@@ -164,13 +165,13 @@ asignacion:     IDENTIFIER IGUAL expr
            ;
 
 multiasig:  IDENTIFIER COMA multiasig COMA expr
-            | asignacion
+            | asignacion  
             ;  
 
-expr:      INTEGER 
-         | STR 
-         | IDENTIFIER   
-         | TRUES
+expr:      INTEGER                      
+         | expr_str 
+         | IDENTIFIER                   
+         | TRUES                        
          | FALSES
          | PARABRE expr PARCIERRA
          | PARABRE NOT expr PARCIERRA
@@ -182,6 +183,11 @@ expr:      INTEGER
          | IDENTIFIER PARABRE PARCIERRA
          | IDENTIFIER pos_lista
          | CORABRE expr CORCIERRA
+         ;
+
+expr_str: STR 
+         | STR SUMA STR 
+         | STR operadoreslogicos STR 
          ;
 
 pos_lista:      CORABRE expr_aritmetica CORCIERRA pos_lista
@@ -198,7 +204,7 @@ expr_aritmetica:   INTEGER
                  | expr_aritmetica operadores expr_aritmetica
             ;
 expr_booleana:    INTEGER
-                | STR
+                | expr_str
                 | IDENTIFIER  
                 | TRUES
                 | FALSES
@@ -213,8 +219,6 @@ expr_booleana:    INTEGER
                 | CORABRE expr_booleana CORCIERRA
                 ;
             
-
-
 operadores:      SUMA
                 |RESTA
                 |MULT

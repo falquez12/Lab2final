@@ -66,8 +66,10 @@ void yyerror (char *cadena);
 [0-9]+                        {return INTEGER;}
 \".*\"                          {return STR;}
 \'.*\'                           {return STR;}
-[0-9$&?@#!][a-zA-Z_]+                 {ECHO; yyerror("invalid identifier");}
+[0-9$&?@#!][a-zA-Z_]+                 {ECHO; yyerror("invalid identifier \n");}
+[$&?@#!]                               {ECHO; yyerror("invalid symbol \n");}
 [ \t\f\v\n]                       ; 
+
 
 %%
 int yywrap (void){return 1;}

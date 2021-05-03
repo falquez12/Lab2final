@@ -370,8 +370,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 60
-#define YY_END_OF_BUFFER 61
+#define YY_NUM_RULES 61
+#define YY_END_OF_BUFFER 62
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -381,8 +381,8 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[126] =
     {   0,
-        8,    8,   61,   60,   59,   60,   60,   60,   27,   38,
-       60,   43,   44,   29,   42,   35,   41,   28,   55,   47,
+        8,    8,   62,   61,   60,   59,   61,   59,   27,   38,
+       61,   43,   44,   29,   42,   35,   41,   28,   55,   47,
        19,   20,   45,   21,   54,   54,   54,   24,   25,   18,
        54,   54,   54,   54,   54,   54,   54,   54,   54,   54,
        54,   54,   39,   36,   58,    0,   56,    7,    0,    9,
@@ -527,12 +527,12 @@ static const flex_int16_t yy_chk[199] =
     } ;
 
 /* Table of booleans, true if rule could match eol. */
-static const flex_int32_t yy_rule_can_match_eol[61] =
+static const flex_int32_t yy_rule_can_match_eol[62] =
     {   0,
 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
-    0,     };
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    1, 0,     };
 
 static yy_state_type yy_last_accepting_state;
 static char *yy_last_accepting_cpos;
@@ -1130,20 +1130,25 @@ YY_RULE_SETUP
 case 58:
 YY_RULE_SETUP
 #line 69 "lab.l"
-{ECHO; yyerror("invalid identifier");}
+{ECHO; yyerror("invalid identifier \n");}
 	YY_BREAK
 case 59:
-/* rule 59 can match eol */
 YY_RULE_SETUP
 #line 70 "lab.l"
-; 
+{ECHO; yyerror("invalid symbol \n");}
 	YY_BREAK
 case 60:
+/* rule 60 can match eol */
 YY_RULE_SETUP
-#line 72 "lab.l"
+#line 71 "lab.l"
+; 
+	YY_BREAK
+case 61:
+YY_RULE_SETUP
+#line 74 "lab.l"
 ECHO;
 	YY_BREAK
-#line 1147 "lex.yy.c"
+#line 1152 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2160,6 +2165,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 72 "lab.l"
+#line 74 "lab.l"
 
 int yywrap (void){return 1;}
