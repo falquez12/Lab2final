@@ -1,2 +1,1 @@
-def hola() :
-if (3): 3
+("hola" > "chao") + ("ss" != "tres")

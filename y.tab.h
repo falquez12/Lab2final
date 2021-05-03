@@ -54,8 +54,47 @@ extern int yydebug;
     IF = 260,
     WHILE = 261,
     FOR = 262,
-    INTEGER = 263,
-    IDENTIFIER = 264
+    RESTA = 263,
+    INTEGER = 264,
+    IDENTIFIER = 265,
+    COLON = 266,
+    COMP = 267,
+    IGUAL = 268,
+    PARABRE = 269,
+    PARCIERRA = 270,
+    SUMA = 271,
+    OR = 272,
+    AND = 273,
+    DIFERENTE = 274,
+    COMA = 275,
+    TRUES = 276,
+    FALSES = 277,
+    IS = 278,
+    NOT = 279,
+    DIV = 280,
+    MULT = 281,
+    EXP = 282,
+    FDIV = 283,
+    MOD = 284,
+    CORABRE = 285,
+    CORCIERRA = 286,
+    LT = 287,
+    GT = 288,
+    LET = 289,
+    GET = 290,
+    SEMICOLON = 291,
+    CIRCUN = 292,
+    ELSE = 293,
+    BREAK = 294,
+    CONTINUE = 295,
+    IMPORT = 296,
+    PASS = 297,
+    PRINT = 298,
+    IN = 299,
+    RANGE = 300,
+    STR = 301,
+    COMILLAS = 302,
+    COMILLA = 303
   };
 #endif
 /* Tokens.  */
@@ -64,8 +103,47 @@ extern int yydebug;
 #define IF 260
 #define WHILE 261
 #define FOR 262
-#define INTEGER 263
-#define IDENTIFIER 264
+#define RESTA 263
+#define INTEGER 264
+#define IDENTIFIER 265
+#define COLON 266
+#define COMP 267
+#define IGUAL 268
+#define PARABRE 269
+#define PARCIERRA 270
+#define SUMA 271
+#define OR 272
+#define AND 273
+#define DIFERENTE 274
+#define COMA 275
+#define TRUES 276
+#define FALSES 277
+#define IS 278
+#define NOT 279
+#define DIV 280
+#define MULT 281
+#define EXP 282
+#define FDIV 283
+#define MOD 284
+#define CORABRE 285
+#define CORCIERRA 286
+#define LT 287
+#define GT 288
+#define LET 289
+#define GET 290
+#define SEMICOLON 291
+#define CIRCUN 292
+#define ELSE 293
+#define BREAK 294
+#define CONTINUE 295
+#define IMPORT 296
+#define PASS 297
+#define PRINT 298
+#define IN 299
+#define RANGE 300
+#define STR 301
+#define COMILLAS 302
+#define COMILLA 303
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
