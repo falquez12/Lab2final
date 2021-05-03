@@ -1,12 +1,8 @@
-def my_func():
-    x = 10
-    print("Value inside function:",x)
-
-x = 20
-my_func()
-print("Value outside function:",x)
-
-for xd in "hola":
-	for chao in range (1,2,3):
-		xd = ?wau
-		yu = $wawa
+def eval(xi, exp):
+ans = False
+for i in range(len(exp)) :
+part =? True
+for j in range(len(exp[i])) :
+part = part and xi[exp[i][j]]
+ans = ans or part
+return ans

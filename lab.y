@@ -180,18 +180,21 @@ expr:      INTEGER
          | IDENTIFIER PARABRE expr PARCIERRA
          | IDENTIFIER PARABRE NOT expr PARCIERRA
          | IDENTIFIER PARABRE PARCIERRA
-         | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
+         | IDENTIFIER pos_lista
          | CORABRE expr CORCIERRA
          ;
-         
 
+pos_lista:      CORABRE expr_aritmetica CORCIERRA pos_lista
+                | 
+                ; 
 
 expr2:   NOT expr
-        
         ;
 
 expr_aritmetica:   INTEGER
-                 | IDENTIFIER
+                 | IDENTIFIER PARABRE PARCIERRA
+                 | IDENTIFIER PARABRE expr PARCIERRA
+                 | IDENTIFIER pos_lista
                  | expr_aritmetica operadores expr_aritmetica
             ;
 expr_booleana:    INTEGER
