@@ -4,6 +4,7 @@
 #include "y.tab.h"
 int yylex();
 void yyerror (char *cadena);
+int linenum=0;
 %}
 
 %option yylineno
@@ -62,13 +63,15 @@ void yyerror (char *cadena);
 "elif"                          {return ELIF;}
 "while"                         {return WHILE;}
 "for"                         {return FOR;}
+"#".*                           {return COMMENT;}
 [_a-zA-Z][_a-zA-Z0-9]*           {return IDENTIFIER;}
 [0-9]+                        {return INTEGER;}
 \".*\"                          {return STR;}
 \'.*\'                           {return STR;}
-[0-9$&?@#!][a-zA-Z_]+                 {ECHO; yyerror("invalid identifier \n");}
-[$&?@#!]                               {ECHO; yyerror("invalid symbol \n");}
-[ \t\f\v\n]                       ; 
+[0-9"'$&?@#!][a-zA-Z_]+                 {ECHO; yyerror("invalid identifier \n");}
+[$&?@!]                               {ECHO; yyerror("invalid symbol \n");}
+\n                              {linenum++;}
+[ \t\f\v]                       ; 
 
 
 %%

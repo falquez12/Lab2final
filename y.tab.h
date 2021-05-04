@@ -102,7 +102,8 @@ extern int yydebug;
     DIVIDEVAR = 308,
     EXPVAR = 309,
     FDIVVAR = 310,
-    MODVAR = 311
+    MODVAR = 311,
+    COMMENT = 312
   };
 #endif
 /* Tokens.  */
@@ -160,6 +161,7 @@ extern int yydebug;
 #define EXPVAR 309
 #define FDIVVAR 310
 #define MODVAR 311
+#define COMMENT 312
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

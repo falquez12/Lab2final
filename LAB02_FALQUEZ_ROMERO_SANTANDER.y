@@ -2,20 +2,18 @@
     #include <stdio.h>
     #include <stdlib.h>
     #include <ctype.h>
-
+    #include "y.tab.h"
     
 
-    void yyerror(char *cadena);
+    void yyerror(char *s);
     extern int yylex();
     extern int yylineno;
-
-
+    extern FILE *yyin;
+    extern int linenum;
 %}
 
 %locations
-
 %start linea 
-
 %token def
 %token ret
 %token IF
@@ -77,21 +75,25 @@
 %token EXPVAR;
 %token FDIVVAR; 
 %token MODVAR;
+%token COMMENT;
 
 
 
 
 %%
-linea:          multiasig            {printf("ESTA BIEN\n");}
-                |funcion             {printf("ESTA BIEN2\n");}
-                |stmt                {printf("ESTA BIEN3\n");}
-                |IMPORT IDENTIFIER   {printf("ESTA BIEN4\n");}
-                |specialstmt          {printf("ESTA BIEN5\n");}
-                |linea multiasig           {printf("ESTA BIEN6\n");}
-                |linea funcion             {printf("ESTA BIEN7\n");}
-                |linea stmt                {printf("ESTA BIEN8\n");}
-                |linea IMPORT IDENTIFIER   {printf("ESTA BIEN9\n");}
-                |linea specialstmt          {printf("ESTA BIEN10\n");}
+linea:          multiasig            
+                |funcion             
+                |stmt                
+                |IMPORT IDENTIFIER   
+                |specialstmt          
+                |COMMENT                
+                |linea multiasig           
+                |linea funcion             
+                |linea stmt                
+                |linea IMPORT IDENTIFIER   
+                |linea specialstmt          
+                |linea COMMENT                 
+                |linea error                 
                 ;   
 
 funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt 
@@ -99,6 +101,7 @@ funcion:        def IDENTIFIER PARABRE parametros PARCIERRA COLON stmt
                 | def IDENTIFIER PARABRE parametros PARCIERRA COLON ret expr 
                 | def IDENTIFIER PARABRE parametros PARCIERRA COLON 
                 ;
+
 
 
 
@@ -141,6 +144,7 @@ cond_elif: ELIF expr_booleana COLON stmt cond_elif
 
 cond_else: ELSE COLON stmt 
         | ELSE COLON 
+        |
         ;
 
 ciclo_for: FOR IDENTIFIER IN IDENTIFIER COLON 
@@ -168,7 +172,9 @@ multiasig:  IDENTIFIER COMA multiasig COMA expr
             | asignacion  
             ;  
 
-expr:      INTEGER                      
+expr:      INTEGER
+         | RESTA INTEGER   
+         | RESTA IDENTIFIER                   
          | expr_str 
          | IDENTIFIER                   
          | TRUES                        
@@ -183,6 +189,7 @@ expr:      INTEGER
          | IDENTIFIER PARABRE PARCIERRA
          | IDENTIFIER pos_lista
          | CORABRE expr CORCIERRA
+         | CORABRE CORCIERRA
          ;
 
 expr_str: STR 
@@ -205,7 +212,8 @@ expr_aritmetica:   INTEGER
             ;
 expr_booleana:    INTEGER
                 | expr_str
-                | IDENTIFIER  
+                | RESTA INTEGER   
+                | RESTA IDENTIFIER       
                 | TRUES
                 | FALSES
                 | PARABRE expr_booleana PARCIERRA
@@ -215,7 +223,7 @@ expr_booleana:    INTEGER
                 | IDENTIFIER PARABRE expr_booleana PARCIERRA
                 | IDENTIFIER PARABRE NOT expr_booleana PARCIERRA
                 | IDENTIFIER PARABRE PARCIERRA
-                | IDENTIFIER CORABRE expr_aritmetica CORCIERRA
+                | IDENTIFIER pos_lista
                 | CORABRE expr_booleana CORCIERRA
                 ;
             
@@ -253,10 +261,20 @@ operadoresasignacion:   AUMENTAVAR
 
 %%
 
-int main (void){
-        return yyparse();
+int main(int argc, char *argv[])
+{
+     yyin = fopen(argv[1], "r");
+
+    if(!yyparse())
+        printf("\nParseado completado\n");
+    else
+        printf("\nError en el parseo\n");
+
+    fclose(yyin);
+    
+    return 0;
 }
 
-void yyerror (char *cadena) {
-        fprintf(stderr,"Error | Line: %d\n%s\n",yylineno,cadena);
-        }
+void yyerror(char *s){
+    fprintf(stderr,"Error at line: %d %s\n",yylineno,s);
+}
